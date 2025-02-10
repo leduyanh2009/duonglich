@@ -22,6 +22,7 @@
 </head>
 <body>
     <h1>Gregory Date Checker</h1>
+    <p><strong>Lưu ý:</strong> Những khoảng thời gian dưới ngày 15 tháng 10 năm 1582 là giả định vì vào khoảng đó lịch Gregorian chưa có hiệu lực.</p>
     <label>Ngày: <input type="number" id="day" min="1" max="31"></label><br>
     <label>Tháng: <input type="number" id="month" min="1" max="12"></label><br>
     <label>Năm: <input type="number" id="year" min="1" max="9999"></label><br>
@@ -75,6 +76,7 @@
                     }
                 }
             }
+            result += "<br><br>Mọi bản quyền thuộc về leduyanhdenz@gmail.com nếu có lỗi vui lòng liên hệ gmail này!";
             document.getElementById('result').innerHTML = result;
         }
     </script>
