@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gregory Date Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        input {
+            margin: 5px;
+            padding: 10px;
+        }
+        .special-date {
+            font-weight: bold;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gregory Date Checker</h1>
+    <label>Ngày: <input type="number" id="day" min="1" max="31"></label><br>
+    <label>Tháng: <input type="number" id="month" min="1" max="12"></label><br>
+    <label>Năm: <input type="number" id="year" min="1" max="9999"></label><br>
+    <button onclick="checkDate()">Kiểm tra</button>
+    <h2 id="result"></h2>
+
+    <script>
+        function isLeapYear(year) {
+            return (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+        }
+
+        function checkDate() {
+            let day = parseInt(document.getElementById('day').value);
+            let month = parseInt(document.getElementById('month').value);
+            let year = parseInt(document.getElementById('year').value);
+            let result = "";
+
+            const MAX_YEAR = 9999;
+
+            if (isNaN(day) || isNaN(month) || isNaN(year) || year < 1 || year > MAX_YEAR) {
+                result = `Vui lòng nhập đầy đủ ngày, tháng, năm (năm phải từ 1 đến ${MAX_YEAR}).`;
+            } else if (month < 1 || month > 12) {
+                result = "Vui lòng nhập lại tháng.";
+            } else {
+                let maxDays = 31;
+                if ([4, 6, 9, 11].includes(month)) {
+                    maxDays = 30;
+                } else if (month === 2) {
+                    maxDays = isLeapYear(year) ? 29 : 28;
+                }
+
+                if (day < 1 || day > maxDays) {
+                    result = "Vui lòng nhập lại ngày.";
+                } else {
+                    let date = new Date(year, month - 1, day);
+                    let days = ["Chủ Nhật", "Thứ Hai", "Thứ Ba", "Thứ Tư", "Thứ Năm", "Thứ Sáu", "Thứ Bảy"];
+                    let dayOfWeek = days[date.getDay()];
+
+                    const specialDates = {
+                        "2009-03-05": "Thứ Năm (ngày sinh admin)",
+                        "1890-05-19": "Thứ Hai - Độc lập, Tự do, Hạnh phúc",
+                        "2007-01-10": "Thứ Tư (chị Ngọc cute)"
+                    };
+
+                    const dateString = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                    
+                    if (specialDates.hasOwnProperty(dateString)) {
+                        result = `<span class="special-date">${specialDates[dateString]}</span>`;
+                    } else {
+                        result = dayOfWeek;
+                    }
+                }
+            }
+            document.getElementById('result').innerHTML = result;
+        }
+    </script>
+</body>
+</html>
